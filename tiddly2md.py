@@ -34,6 +34,19 @@ def wiki_to_md(text):
     new_text = []
     fn_n = 1  # Counter for footnotes
     for line in text.split('\n'):
+        # lists (unordered, ordered and mixed)
+        match = re.match("^([#\*]+)(.*)", line)
+        if match:
+            list, text = match.groups()
+            num_of_spaces = 4 * (len(list) - 1)
+            spaces = " " * num_of_spaces
+            list_type = ""
+            if list[-1] == "#":
+                list_type = "1."
+            else:
+                list_type = "*"
+            additional_space = ""
+            line = spaces + list_type + text
         # Replace wiki headers with markdown headers
         match = re.match('(!+)(\\s?)[^\\[]', line)
         if match:
